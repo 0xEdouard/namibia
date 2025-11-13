@@ -7,9 +7,7 @@ RUN mkdir -p /out && \
       -s \
       -o /out/index.html \
       --metadata title="Namibia Trip" \
-      --mathjax \
-      --css=https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css \
-      --variable maxwidth=1200px && \
+      --mathjax && \
     if [ -d "images" ]; then cp -r images /out/images; fi
 
 FROM nginx:alpine
