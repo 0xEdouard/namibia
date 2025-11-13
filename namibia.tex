@@ -2,7 +2,6 @@
 \usepackage[margin=2cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{pythontex}
 \usepackage{tikz}
 \usepackage{tabularx}
 \usepackage{booktabs}
@@ -132,63 +131,12 @@ Meals (est.) & €200 & €1,000 \\
 
 \subsection{Complete Journey Map}
 
-\begin{pycode}
-import folium
-from folium import PolyLine, Marker
-import os
-
-# Ensure images directory exists
-os.makedirs('images', exist_ok=True)
-
-# Create map centered on Namibia
-m = folium.Map(location=[-22.5, 17.0], zoom_start=6, tiles='OpenStreetMap')
-
-# Define locations with coordinates
-locations = {
-    'Windhoek': (-22.5597, 17.0832),
-    'Sossusvlei': (-24.7268, 15.2934),
-    'Swakopmund': (-22.6792, 14.5272),
-    'Damaraland': (-20.5, 14.5),
-    'Etosha': (-18.8556, 16.3293)
-}
-
-# Add markers with labels
-for name, coords in locations.items():
-    folium.Marker(
-        coords,
-        popup=name,
-        tooltip=name,
-        icon=folium.Icon(color='red', icon='info-sign')
-    ).add_to(m)
-
-# Add route polyline
-route_coords = [
-    locations['Windhoek'],
-    locations['Sossusvlei'],
-    locations['Swakopmund'],
-    locations['Damaraland'],
-    locations['Etosha'],
-    locations['Windhoek']
-]
-PolyLine(route_coords, color='blue', weight=4, opacity=0.7).add_to(m)
-
-# Save interactive HTML map
-m.save('images/route_map.html')
-
-# Also save as screenshot using selenium (if available) or just note
-try:
-    import io
-    from PIL import Image
-    # For now, just create a placeholder - screenshot requires selenium + webdriver
-    # Users will use the HTML version
-    print(r'\textit{Interactive map: images/route\_map.html}')
-except:
-    print(r'\textit{Map generated successfully}')
-\end{pycode}
-
 \begin{center}
-\textit{View interactive map: \href{images/route\_map.html}{route\_map.html}}
+\Large\textbf{\href{images/route_map.html}{→ View Interactive Map ←}}
 \end{center}
+
+\vspace{1em}
+\noindent\textit{The interactive map shows all locations with markers and the complete route across Namibia. Click the link above to explore.}
 
 \subsection{Driving Summary}
 
