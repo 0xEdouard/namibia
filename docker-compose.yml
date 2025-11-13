@@ -13,7 +13,7 @@ services:
       - proxy
     labels:
       - traefik.enable=true
-      - traefik.http.routers.namibia.rule=Host(`namibia.edouard.lol`) || Host(`www.namibia.edouard.lol`)
+      - traefik.http.routers.namibia.rule=Host(`namibia.edouard.lol`)
       - traefik.http.routers.namibia.entrypoints=websecure
       - traefik.http.routers.namibia.tls.certresolver=le
       - traefik.http.services.namibia.loadbalancer.server.port=80
