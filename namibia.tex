@@ -2,6 +2,7 @@
 \usepackage[margin=2cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{pythontex}
 \usepackage{tikz}
 \usepackage{tabularx}
 \usepackage{booktabs}
@@ -131,40 +132,62 @@ Meals (est.) & €200 & €1,000 \\
 
 \subsection{Complete Journey Map}
 
-\begin{center}
-\begin{tikzpicture}[
-    city/.style={circle, draw=primarycolor, fill=primarycolor!20, thick, minimum size=8mm},
-    stop/.style={circle, draw=secondarycolor, fill=secondarycolor!20, minimum size=6mm},
-    route/.style={->,>=Stealth, thick, primarycolor},
-    distance/.style={font=\small, sloped}
+\begin{pycode}
+import folium
+from folium import PolyLine, Marker
+import os
+
+# Ensure images directory exists
+os.makedirs('images', exist_ok=True)
+
+# Create map centered on Namibia
+m = folium.Map(location=[-22.5, 17.0], zoom_start=6, tiles='OpenStreetMap')
+
+# Define locations with coordinates
+locations = {
+    'Windhoek': (-22.5597, 17.0832),
+    'Sossusvlei': (-24.7268, 15.2934),
+    'Swakopmund': (-22.6792, 14.5272),
+    'Damaraland': (-20.5, 14.5),
+    'Etosha': (-18.8556, 16.3293)
+}
+
+# Add markers with labels
+for name, coords in locations.items():
+    folium.Marker(
+        coords,
+        popup=name,
+        tooltip=name,
+        icon=folium.Icon(color='red', icon='info-sign')
+    ).add_to(m)
+
+# Add route polyline
+route_coords = [
+    locations['Windhoek'],
+    locations['Sossusvlei'],
+    locations['Swakopmund'],
+    locations['Damaraland'],
+    locations['Etosha'],
+    locations['Windhoek']
 ]
+PolyLine(route_coords, color='blue', weight=4, opacity=0.7).add_to(m)
 
-% Cities/Locations
-\node[city] (windhoek) at (0,0) {WDH};
-\node[city] (sossusvlei) at (-3,-3) {SOS};
-\node[city] (swakop) at (-3,-6) {SWP};
-\node[city] (damaraland) at (0,-8) {DAM};
-\node[city] (etosha) at (3,-6) {ETO};
-\node[city] (windhoek2) at (0,-1) {};
+# Save interactive HTML map
+m.save('images/route_map.html')
 
-% Routes with distances
-\draw[route] (windhoek) -- node[distance, above left] {350km, 5h} (sossusvlei);
-\draw[route] (sossusvlei) -- node[distance, left] {350km, 4.5h} (swakop);
-\draw[route] (swakop) -- node[distance, below] {420km, 5-6h} (damaraland);
-\draw[route] (damaraland) -- node[distance, below right] {250km, 4h} (etosha);
-\draw[route] (etosha) -- node[distance, above right] {430km, 5h} (windhoek2);
+# Also save as screenshot using selenium (if available) or just note
+try:
+    import io
+    from PIL import Image
+    # For now, just create a placeholder - screenshot requires selenium + webdriver
+    # Users will use the HTML version
+    print(r'\textit{Interactive map: images/route\_map.html}')
+except:
+    print(r'\textit{Map generated successfully}')
+\end{pycode}
 
-% Legend
-\node[above=0.5cm of windhoek] {\textbf{Route Legend}};
-\node[above=0.2cm of windhoek, font=\footnotesize] {WDH=Windhoek, SOS=Sossusvlei};
-\node[below=0.0cm of windhoek, font=\footnotesize] {SWP=Swakopmund, DAM=Damaraland, ETO=Etosha};
-
-% Total distance
-\node[below=1cm of damaraland, fill=lightgray, rounded corners, inner sep=5pt] {
-    \textbf{Total Distance:} $\sim$2,200 km
-};
-
-\end{tikzpicture}
+\begin{center}
+\textit{View interactive map: \href{images/route\_map.html}{route\_map.html}}
 \end{center}
 
 \subsection{Driving Summary}
@@ -260,21 +283,7 @@ Meals & €30 \\
 
 \textbf{Route:} Windhoek → Sossusvlei (350 km, 5 hours)
 
-\begin{center}
-\begin{tikzpicture}[
-    location/.style={rectangle, draw, fill=primarycolor!20, rounded corners, minimum width=2cm, minimum height=0.8cm},
-    small/.style={font=\footnotesize}
-]
-\node[location] (start) at (0,0) {Windhoek};
-\node[location] (solitaire) at (4,0) {Solitaire};
-\node[location] (end) at (8,0) {Sossusvlei};
-
-\draw[->,>=Stealth,thick] (start) -- node[above,small] {268 km, 3.5h} node[below,small] {C19 gravel} (solitaire);
-\draw[->,>=Stealth,thick] (solitaire) -- node[above,small] {82 km, 1.5h} node[below,small] {C27 gravel} (end);
-
-\node[below=0.8cm of solitaire, fill=accentcolor!20, rounded corners, inner sep=3pt, small] {Fuel + Apple Crumble!};
-\end{tikzpicture}
-\end{center}
+\noindent\textbf{Windhoek} $\rightarrow$ (268 km, 3.5h, C19 gravel) $\rightarrow$ \textbf{Solitaire} [Fuel + Apple Crumble!] $\rightarrow$ (82 km, 1.5h, C27 gravel) $\rightarrow$ \textbf{Sossusvlei}
 
 \textbf{Timeline:}
 
@@ -404,21 +413,7 @@ Park entry fees & €25 \\
 
 \textbf{Route:} Sossusvlei → Swakopmund (350 km, 4--5 hours)
 
-\begin{center}
-\begin{tikzpicture}[
-    location/.style={rectangle, draw, fill=primarycolor!20, rounded corners, minimum width=2cm, minimum height=0.8cm},
-    small/.style={font=\footnotesize}
-]
-\node[location] (start) at (0,0) {Sossusvlei};
-\node[location] (kuiseb) at (4,0) {Kuiseb Canyon};
-\node[location] (end) at (8,0) {Swakopmund};
-
-\draw[->,>=Stealth,thick] (start) -- node[above,small] {200 km, 2.5h} node[below,small] {C14 gravel} (kuiseb);
-\draw[->,>=Stealth,thick] (kuiseb) -- node[above,small] {150 km, 2h} node[below,small] {via Walvis Bay} (end);
-
-\node[below=0.8cm of kuiseb, fill=accentcolor!20, rounded corners, inner sep=3pt, small] {Photo stop!};
-\end{tikzpicture}
-\end{center}
+\noindent\textbf{Sossusvlei} $\rightarrow$ (200 km, 2.5h, C14 gravel) $\rightarrow$ \textbf{Kuiseb Canyon} [Photo stop!] $\rightarrow$ (150 km, 2h, via Walvis Bay) $\rightarrow$ \textbf{Swakopmund}
 
 \textbf{Timeline:}
 
@@ -532,24 +527,7 @@ Optional activities & €0--40 \\
 
 \textbf{Route:} Swakopmund → Damaraland (420 km, 5--6 hours)
 
-\begin{center}
-\begin{tikzpicture}[
-    location/.style={rectangle, draw, fill=primarycolor!20, rounded corners, minimum width=2cm, minimum height=0.8cm},
-    small/.style={font=\footnotesize}
-]
-\node[location] (start) at (0,0) {Swakopmund};
-\node[location] (cape) at (3,0) {Cape Cross};
-\node[location] (uis) at (6,0) {Uis};
-\node[location] (end) at (9,0) {Damaraland};
-
-\draw[->,>=Stealth,thick] (start) -- node[above,small] {120 km, 1.5h} node[below,small] {B2 tarred} (cape);
-\draw[->,>=Stealth,thick] (cape) -- node[above,small] {180 km, 2.5h} node[below,small] {C34/C35} (uis);
-\draw[->,>=Stealth,thick] (uis) -- node[above,small] {120 km, 1.5h} node[below,small] {gravel} (end);
-
-\node[below=0.8cm of cape, fill=warningcolor!20, rounded corners, inner sep=3pt, small] {100,000 seals!};
-\node[below=0.8cm of uis, fill=accentcolor!20, rounded corners, inner sep=3pt, small] {FUEL};
-\end{tikzpicture}
-\end{center}
+\noindent\textbf{Swakopmund} $\rightarrow$ (120 km, 1.5h, B2 tarred) $\rightarrow$ \textbf{Cape Cross} [100,000 seals!] $\rightarrow$ (180 km, 2.5h, C34/C35) $\rightarrow$ \textbf{Uis} [FUEL - CRITICAL] $\rightarrow$ (120 km, 1.5h, gravel) $\rightarrow$ \textbf{Damaraland}
 
 \textbf{Timeline:}
 
