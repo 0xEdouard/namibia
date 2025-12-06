@@ -8,16 +8,18 @@ import os
 os.makedirs('images', exist_ok=True)
 
 # =============================================================================
+# AIRPORT (start/end point)
+# =============================================================================
+airport = {
+    'name': 'Hosea Kutako Airport (WDH)',
+    'coords': (-22.4799, 17.4709),
+    'details': 'International airport - vehicle pickup (Dec 24) & dropoff (Jan 6)'
+}
+
+# =============================================================================
 # ACCOMMODATIONS (exact hotel locations)
 # =============================================================================
 accommodations = [
-    {
-        'name': 'Windhoek Airport (WDH)',
-        'coords': (-22.4799, 17.4709),
-        'dates': 'Dec 24 (Arrival) & Jan 6 (Departure)',
-        'details': 'Hosea Kutako International Airport - vehicle pickup/dropoff',
-        'booked': True
-    },
     {
         'name': 'Kulala Desert Lodge',
         'coords': (-24.7283, 15.7917),
@@ -369,6 +371,20 @@ for route in routes:
         tooltip=route['name']
     ).add_to(fg_routes)
 
+# Add airport marker (separate from accommodations)
+airport_popup = f"""
+<div style="min-width: 200px">
+    <h4 style="color: #333; margin: 0 0 8px 0">✈️ {airport['name']}</h4>
+    <p style="margin: 4px 0">{airport['details']}</p>
+</div>
+"""
+Marker(
+    airport['coords'],
+    popup=folium.Popup(airport_popup, max_width=300),
+    tooltip=f"✈️ {airport['name']}",
+    icon=Icon(color='black', icon='plane', prefix='fa')
+).add_to(m)
+
 # Add feature groups to map
 fg_routes.add_to(m)
 fg_hotels.add_to(m)
@@ -395,6 +411,7 @@ legend_html = '''
      background: white; padding: 12px; border-radius: 8px;
      box-shadow: 0 2px 10px rgba(0,0,0,0.2); font-family: sans-serif; font-size: 11px;">
     <h4 style="margin: 0 0 8px 0;">Legend</h4>
+    <p style="margin: 3px 0;"><span style="color: black;">✈</span> Airport</p>
     <p style="margin: 3px 0;"><span style="color: green;">●</span> Hotel (Booked)</p>
     <p style="margin: 3px 0;"><span style="color: gray;">●</span> Hotel (TBD)</p>
     <p style="margin: 3px 0;"><span style="color: red;">●</span> CRITICAL Fuel</p>
