@@ -24,7 +24,7 @@ accommodations = [
         'name': 'Kulala Desert Lodge',
         'coords': (-24.7283, 15.7917),
         'dates': 'Dec 24-27 (3 nights)',
-        'details': 'Wilderness Safaris. Private gate to Sossusvlei. Ref: 947972. PAID: €8,813',
+        'details': 'Wilderness Safaris. Private gate to Sossusvlei.',
         'booked': True
     },
     {
@@ -45,7 +45,7 @@ accommodations = [
         'name': 'Ongava Lodge',
         'coords': (-19.0500, 15.7833),
         'dates': 'Dec 31 - Jan 1 (1 night, NYE)',
-        'details': 'Private reserve bordering Etosha. Ref: 18907. Cost: N$88,200',
+        'details': 'Private reserve bordering Etosha.',
         'booked': True
     },
     {
