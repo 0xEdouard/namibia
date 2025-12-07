@@ -30,14 +30,14 @@ accommodations = [
     {
         'name': 'Breeze Lodge, Swakopmund',
         'coords': (-22.6792, 14.5264),
-        'dates': 'Dec 27-29 (2 nights)',
+        'dates': 'Dec 27-28 (1 night)',
         'details': 'Coastal town accommodation',
         'booked': True
     },
     {
         'name': 'Damaraland Camp (TBD)',
         'coords': (-20.4833, 14.3667),
-        'dates': 'Dec 29-31 (2 nights)',
+        'dates': 'Dec 28-31 (3 nights)',
         'details': 'Property TBD. Desert elephant tracking area.',
         'booked': False
     },
